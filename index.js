@@ -1,8 +1,10 @@
 import { Client } from "twitter-api-sdk";
 import * as fs from 'fs';
 
+const DATA_FILE_NAME = "data.csv"
+const QUERY = `@1Password lang:en`
 const BEARER_TOKEN = process.env.BEARER_TOKEN
-const client = new Client("AAAAAAAAAAAAAAAAAAAAAOhzlAEAAAAADzOf94mMWqylJ8cyJ84w%2ForBZ28%3DvOgRSTMp7Q9cxrbdk85dgVZZwf9ZuRw0n1J7LTSFEssLcUwiGg");
+const client = new Client(BEARER_TOKEN);
 
 
 async function findTweetsById(ids) {
@@ -165,7 +167,7 @@ async function getFilteredStreamFromQuery() {
   function writeToFile(data) {
 
     // Write data in 'data.csv' .
-    fs.writeFile('data.csv', data, (err) => {
+    fs.writeFile(DATA_FILE_NAME, data, (err) => {
           
         // In case of a error throw err.
         if (err) throw err;
@@ -174,8 +176,8 @@ async function getFilteredStreamFromQuery() {
 
 
   async function main() {
-    // const query = `context:47.10045019101 OR #1Password OR @1Password OR "shell plugins" OR "Shell Plugins" OR "1Password"`
-    var data = await searchRecentTweetsByQuery(`@1Password lang:en`, null, 0)
+    // const more_comprehensive_query = `context:47.10045019101 OR #1Password OR @1Password OR "shell plugins" OR "Shell Plugins" OR "1Password"`
+    var data = await searchRecentTweetsByQuery(QUERY, null, 0)
     var csv = convertJSONToCSV(data)
     writeToFile(csv)
   }
