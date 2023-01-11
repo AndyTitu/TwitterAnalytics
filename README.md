@@ -1,4 +1,4 @@
-# TwitterAnalytics
+# TwitterMetrics
 A small script for measuring word of mouth marketing via tweets on certain topics.
 
 # Pre-requisites
