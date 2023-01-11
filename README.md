@@ -1,6 +1,10 @@
 # TwitterMetrics
 A small script for measuring word of mouth marketing via tweets on certain topics.
 
+Some not-straightforward metrics computed here:
+`total_generated_impressions` : impressions gathered by all replies of tweets matching a certain query (including replies of replies)
+`total_generated_engagement` : engagement (likes + comms + retweets) gathered by all replies of tweets matching a certain query (including replies of replies)
+
 # Pre-requisites
 You will need a Twitter developer app with the Essential (free) package.
 Then you will need to generate yourself a BEARER_TOKEN.
