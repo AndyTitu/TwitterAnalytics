@@ -2,7 +2,7 @@ import { Client } from "twitter-api-sdk";
 import * as fs from 'fs';
 
 const DATA_FILE_NAME = "data.csv"
-const QUERY = `@1Password lang:en`
+const QUERY = `context:47.10045019101 ssh`
 const BEARER_TOKEN = process.env.BEARER_TOKEN
 const client = new Client(BEARER_TOKEN);
 
@@ -106,7 +106,7 @@ async function searchRecentTweetsByQuery(query, pagination_token, limit) {
     // console.log("includes", JSON.stringify(includes, null, 1));
     console.log(res.data.length)
 
-    await populateThreadImpressionsForTweets(res.data)
+    await populateThreadImpressionsAndEngagementForTweets(res.data)
 
     var data = res.data
     if(res.meta && res.meta.next_token) {
@@ -142,7 +142,7 @@ async function getFilteredStreamFromQuery() {
   }
 
   function convertJSONToCSV(data) {
-    var csv = "id, link, content, created_at, views, likes, retweets, comments, total_generated_impressions, total_generated_engagement\n"
+    var csv = "id, link, content, created_at, views, likes, retweets, comments, total_generated_impressions, total_generated_engagement, total_impressions, total_engagement\n"
     for (let i = 0; i < data.length; i++) { 
       var d = data[i];
       
@@ -155,7 +155,9 @@ async function getFilteredStreamFromQuery() {
       ", " + d.public_metrics.retweet_count + 
       ", " + d.public_metrics.reply_count +
       ", " + d.generated_impressions + 
-      ", " + d.generated_engagement + '\n'
+      ", " + d.generated_engagement +
+      ", " + d.public_metrics.impression_count + d.generated_impressions + 
+      ", " + d.generated_engagement + d.public_metrics.like_count + d.public_metrics.reply_count + d.public_metrics.retweet_count + '\n'
     }
 
     console.log(csv)
